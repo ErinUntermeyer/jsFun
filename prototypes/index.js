@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const { kitties } = require('./datasets/kitties');
 const { clubs } = require('./datasets/clubs');
 const { mods } = require('./datasets/mods');
@@ -26,22 +28,27 @@ const kittyPrompts = {
   orangeKittyNames() {
 
     // Return an array of just the names of kitties who are orange e.g.
-    // ['Tiger', 'Snickers']
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+		// ['Tiger', 'Snickers']
+		const result = kitties.filter(kitty => kitty.color === 'orange').reduce((orangeKitties, kitty) => orangeKitties.concat(kitty.name), [])
+		return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		// I need to iterate over the kitties array of kitty objects. I can use filter to return an array of just kitty objects that have orange kitties in them. I then need to create a new array that I can push in just the kitty names and return those.
+		// I ended up using the reduce method with orangeKitties as my accumulator, kitty as my currentValue and an empty array as my second parameter. Through each iteration, I used the concat method to make a single array of just kitty names and returned that.
   },
 
   sortByAge() {
     // Sort the kitties by their age
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = kitties.sort(function(a, b) {
+			return b.age - a.age
+		})
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		// I need to return an array of the same length. I need it sorted by the key age from oldest to youngest. I know that there is a method called sort that I will need to research to complete this. After researching sort, the method is called on an array and takes in one parameter, the compare function. The compare function takes in two parameters that are being compared, a & b.//If a is less than b, it returns -1 and thus sorts to an index lower than b
+		//If a is greater than b, it returns 1, and thus sorts to an index higher than b
+		//The syntax is array.sort(function(a,b) => a - b)
   },
 
   growUp() {
@@ -58,8 +65,16 @@ const kittyPrompts = {
     // },
     // ...etc]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    const result = kitties.sort(function(a, b) {
+			return b.age - a.age}).map(kitty => {
+			kitty.age = kitty.age + 2
+			return kitty;
+		})
+		return result;
+		
+		// Annotation:
+		// I need to edit each element in the kitties array to add 2 years to the age property. To return an array of the same length after modifying it can be done using the map method. If I iterate over kitties using map, I can then reassign kitty.age to kitty.age + 2 and return the new array
+		// After getting the results returned with the age increased by two, I realized the test also wants this list sorted from oldest to youngest so I added the sort method to sort the kitties first before using the map method to increase the age by 2.
   }
 };
 
