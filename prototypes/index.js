@@ -103,15 +103,35 @@ const clubPrompts = {
     //   Louisa: ['Drama', 'Art'],
     //   Pam: ['Drama', 'Art', 'Chess'],
     //   ...etc
-    // }
+		// }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+
+		let finalArray = []
+		const result = answer = clubs.reduce((clubObjs, obj) => {
+			obj.members.forEach(member => {
+				if (!finalArray.includes(member)) {
+					clubObjs[member] = [obj.club]
+					finalArray.push(member)
+				} else {
+					clubObjs[member].push(obj.club)
+				}
+				return finalArray
+			})
+			return clubObjs
+		}, {})
     return result;
 
-    // Annotation:
-    // Write your annotation here as a comment
-  }
-};
+		// Annotation:
+		// Output needs to be an object with keys as members and values as arrays with club names in them. I can turn an array into an object using the reduce method.
+		// Each element in clubs array I need to:
+		// iterate over the members array
+		// each element in members array I need to turn into a key and assign it to an array with the club in it.
+		// next element in clubs array I need to check if the name in the members array has a key. if so, push the club into that array. if not, create a new key and assign it to an array with the club in it.
+		// rinse and repeat
+		// return the object
+	
+	}
+}
 
 
 
