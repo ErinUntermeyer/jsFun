@@ -161,11 +161,20 @@ const modPrompts = {
     //   { mod: 4, studentsPerInstructor: 8 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+		const result = mods.map(mod => {
+			mod.studentsPerInstructor = mod.students / mod.instructors
+			delete mod.students
+			delete mod.instructors
+			return mod
+		})
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		// I need to return an array of the same length where each element is being modified, which can be done using map.
+		// As I iterate over each element, I will need to do these things:
+		// figure out students per instructor which will be done by dividing the number of students by the number of instructors
+		// assign that new value to a key of studentsPerInstructor
+		// delete the keys students and instructors
   }
 };
 
