@@ -205,11 +205,22 @@ const cakePrompts = {
     //    ..etc
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+		const result = cakes.map(cake => {
+			delete cake.filling
+			delete cake.frosting
+			delete cake.toppings
+			cake.flavor = cake.cakeFlavor
+			delete cake.cakeFlavor
+			return cake
+		});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		// I need to return a modified array of the same length, which can be done using map.
+		// In each iteration I need to:
+		// delete the filling, frosting and toppings properties
+		// modify the name cakeFlavor to just flavor
+		// return the cake
   },
 
   onlyInStock() {
@@ -233,22 +244,28 @@ const cakePrompts = {
     // ..etc
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.filter(cake => cake.inStock > 0);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		// I need to iterate over the cakes array and return a modified array, which can be done using filter.
+		// During each iteration I need to:
+		// Determine is inStock is greater than 0. If so, filter it out.
+		// Return the filtered array
   },
 
   totalInventory() {
     // Return the total amount of cakes in stock e.g.
     // 59
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((totalCakes, cake) => {
+			return totalCakes + cake.inStock
+		}, 0);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		// I need to iterate over the cakes array and return a number, which can be done using the reduce method.
+		// During each iteration, I need to then add the number of cakes to the accumulator value. After all iterations, return the accumulator to get total amount of cakes in stock.
   },
 
   allToppings() {
@@ -256,11 +273,21 @@ const cakePrompts = {
     // every cake in the dataset e.g.
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((toppings, cake) => {
+			cake.toppings.forEach(topping => {
+				if (!toppings.includes(topping)) {
+					toppings.push(topping)
+				}
+			})
+			return toppings;
+		}, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		// I need to iterate over the cakes array of cake objects and return a single array of just toppings, which can be done using the reduce method.
+		// The accumulator will be toppings and the current value will be cake (the first cake object in the cakes array) and the initial value will be an empty array.
+		// During each iteration, I need to iterate over the toppings array, which can be done with forEach. I will set up a conditional to check if the toppings array does not have the topping in there (using includes), if so, push it into the toppings array.
+		// Return toppings.
   },
 
   groceryList() {
@@ -274,11 +301,23 @@ const cakePrompts = {
     //    ...etc
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cakes.reduce((toppings, cake) => {
+			cake.toppings.forEach(topping => {
+				if (!Object.keys(toppings).includes(topping)) {
+					toppings[topping] =+ 1
+				} else {
+					toppings[topping]++
+				}
+			})
+			return toppings;
+		}, {})
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		// I need to return an object from an array, which can be done using the reduce method. The accumulator will be toppings, the currentValue will be cake and the initial value will be an empty object.
+		// During each cake iteration I will need to iterate over the toppings array.
+		// As I iterate over the toppings array, since I will need to convert each element into a key and assign a number to it, I can use forEach. I will need to set up a conditional to check if the key already exists, instead of making a new one, increment the number by 1.
+		// Return toppings 
   }
 };
 
