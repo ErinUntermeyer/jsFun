@@ -348,11 +348,17 @@ const classPrompts = {
     //   { roomLetter: 'G', program: 'FE', capacity: 29 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+		const result = classrooms.filter(classObj => classObj.program === 'FE');
+		return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Start with an array of objects
+		Output needs to be an array of objects filtered with only FE programs
+		Can be done using filter
+		For each iteration of class, locate program === 'FE' and return that object.
+
+		*/
   },
 
   totalCapacities() {
@@ -363,21 +369,47 @@ const classPrompts = {
     //   beCapacity: 96
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.reduce((programCapacity, classObj) => {
+			if (classObj.program === 'FE') {
+				programCapacity.feCapacity += classObj.capacity;
+			} else {
+				programCapacity.beCapacity += classObj.capacity;
+			}
+			return programCapacity;
+		}, {feCapacity: 0, beCapacity: 0});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is an array of objects
+		Output needs to be an object:
+			keys of feCapacity, beCapacity
+			values the total capacity for each program
+		This can be done using reduce
+			accumulator is an programCapacity
+			currentValue is classObj
+			initial value is {feCapacity: 0, beCapacity: 0}
+		For each iteration, if program is 'FE', add capacity to feCap
+		If not, add capacity to beCap
+		return programCapacity
+		*/
   },
 
   sortByCapacity() {
     // Return the array of classrooms sorted by their capacity (least capacity to greatest)
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = classrooms.sort((a, b) => {
+			return a.capacity - b.capacity;
+		});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is an array of objects
+		Output is an array of objects of the same length sorted
+		Can be done using sort
+		For each iteration, the compare function will need to return a.capacity - b.capacity
+		*/
   }
 };
 
