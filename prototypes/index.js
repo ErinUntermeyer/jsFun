@@ -500,11 +500,25 @@ const weatherPrompts = {
     // return an array of all the average temperatures. Eg:
     // [ 40, 40, 44.5, 43.5, 57, 35, 65.5, 62, 14, 46.5 ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = weather.reduce((avgTemps, city) => {
+			let avg = (city.temperature.high + city.temperature.low) / 2;
+			avgTemps.push(avg);
+			return avgTemps;
+		}, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is an array of objects
+		Output is an array of numbers
+		Can be done using reduce
+		acc is avgTemps
+		curVal is city
+		iniVal is []
+		for each iteration add the high and low and divide by two
+		push answer into avgTemps array
+		return avgTemps
+		*/
   },
 
   findSunnySpots() {
@@ -514,11 +528,27 @@ const weatherPrompts = {
     // 'New Orleans, Louisiana is sunny.',
     // 'Raleigh, North Carolina is mostly sunny.' ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = weather.reduce((sunnyLocations, city) => {
+			if (city.type === 'sunny' || city.type === 'mostly sunny') {
+				sunnyLocations.push(`${city.location} is ${city.type}.`);
+			}
+			return sunnyLocations;
+		}, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is array of city objects
+		Output needs to be an array of strings
+		Can be done using reduce
+		acc is sunnyLocations
+		curVal is city
+		iniVal is []
+		for each iteration - need if conditional to check type for 'sunny' and 'mostly sunny'
+		push sentence using interpolation into sunnyLocations array
+		'location is type'
+		return sunnyLocations
+		*/
   },
 
   findHighestHumidity() {
@@ -530,11 +560,17 @@ const weatherPrompts = {
     //   temperature: { high: 49, low: 38 }
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = weather.sort((a, b) => b.humidity - a.humidity)[0];
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is an array of city objects
+		Output is a single object with the highest humidity
+		Can be done using sort
+		for each iteration, the compare function needs to compare b.humidity - a.humidity
+		once sorted, return the object at index 0 only.
+		*/
 
   }
 };
