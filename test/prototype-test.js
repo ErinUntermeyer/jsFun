@@ -200,7 +200,7 @@ describe("PROTOTYPES", () => {
         feCapacity: 110,
         beCapacity: 96
       })
-    }), it.only("sortByCapacity", () => {
+    }), it("sortByCapacity", () => {
       const e = classPrompts.sortByCapacity();
       expect(e).to.deep.equal([{
         roomLetter: "H",
@@ -238,7 +238,7 @@ describe("PROTOTYPES", () => {
     })
   }),
   describe("Book prompts", () => {
-    it("removeViolence", () => {
+    it.only("removeViolence", () => {
       const e = bookPrompts.removeViolence();
       expect(e).to.deep.equal(['1984',
         'The Great Gatsby',

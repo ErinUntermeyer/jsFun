@@ -432,11 +432,25 @@ const bookPrompts = {
     //   'Catch-22', 'Treasure Island']
 
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = books.reduce((filteredBooks, book) => {
+			if (book.genre !== 'Horror' && book.genre !== 'True Crime') {
+				filteredBooks.push(book.title);
+			};
+			return filteredBooks;
+		}, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is an array of book objects
+		Output needs to be a single array of only book titles that are not horror or true crime
+		Can be done using reduce
+		accumulator is filteredBooks
+		currentValue is book
+		initial value is []
+		For each iteration if genre !== Horror or True Crime push the title of that book into filteredBooks
+		return filteredBooks
+		*/
 
   },
   getNewBooks() {
@@ -447,11 +461,27 @@ const bookPrompts = {
     //  { title: 'Life of Pi', year: 2001 },
     //  { title: 'The Curious Incident of the Dog in the Night-Time', year: 2003 }]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = books.reduce((newBooks, book) => {
+			if (book.published > 1989 && book.published < 2010) {
+				newBooks.push({title: book.title, year: book.published})
+			}
+			return newBooks;
+		}, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is an array of book objects
+		Output needs to be array of book objects published between 1990-2009 with title and year published as key value pairs
+		Can be done using reduce
+		accumulator is newBooks
+		currentValue is book
+		initial value is []
+		for each iteration, if book.published > 1989 && < 2010
+		push in new object to the newBooks array
+		return newBooks
+		*/
+
   }
 
 };
