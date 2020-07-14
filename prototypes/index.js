@@ -593,11 +593,29 @@ const nationalParksPrompts = {
     //   parksVisited: ["Rocky Mountain", "Acadia", "Zion"]
     //}
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = nationalParks.reduce((sortedParks, park) => {
+			if (park.visited) {
+				sortedParks.parksVisited.push(park.name);
+			} else {
+				sortedParks.parksToVisit.push(park.name)
+			}
+			return sortedParks;
+		}, {parksToVisit: [], parksVisited: []});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is array of park objects
+		Output needs to be a sorted object of parksToVisit and parksVisited
+		Can be done using reduce
+		acc is sortedParks
+		curVal is park
+		initial value is {parksToVisit: [], parksVisited: []}
+		for each iteration, need to check visited.
+		if true, push into parksVisited
+		else, push into parksToVisit
+		return sortedParks
+		*/
   },
 
   getParkInEachState() {
@@ -610,11 +628,28 @@ const nationalParksPrompts = {
     // { Florida: 'Everglades' } ]
 
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = nationalParks.reduce((parksInState, park) => {
+			let parkObj = {};
+			parkObj[park.location] = park.name;
+			parksInState.push(parkObj);
+			return parksInState;
+		}, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is an array of park objects
+		Output is an array of objects with key location and value name
+		Can be done using reduce
+		acc is parksInState
+		curVal is park
+		iniVal is []
+		for each iteration
+		create a variable that is an empty object
+		create location as the key and the name as the value
+		push object into parksInState array
+		return parksInState
+		*/
   },
 
   getParkActivities() {
@@ -633,11 +668,30 @@ const nationalParksPrompts = {
     //   'backpacking',
     //   'rock climbing' ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = nationalParks.reduce((activities, park) => {
+			park.activities.forEach(item => {
+				if (!activities.includes(item)) {
+					activities.push(item)
+				};
+			});
+			return activities;
+		}, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is an array of park objects
+		Output needs to be an array of strings that are all the activities that can be done in all the national parks, excluding duplicates.
+		This can be done using reduce
+		acc is activities
+		curVal is park
+		initial value is []
+		for each iteration
+		need to iterate over the activities array (can be done with forEach)
+		for each item, check if it's already in activities array.
+		if not, push into activities array
+		return activities array
+		*/
   }
 };
 
