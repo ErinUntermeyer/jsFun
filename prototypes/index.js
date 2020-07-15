@@ -714,11 +714,22 @@ const breweryPrompts = {
     // Return the total beer count of all beers for every brewery e.g.
     // 40
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = breweries.reduce((beerCount, brewery) => {
+			return beerCount + brewery.beers.length;
+		}, 0);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is an array of objects
+		Output is a number, the total beer count for all beers
+		This can be done using reduce
+		acc is beerCount
+		curVal is brewery
+		iniVal is 0
+		for each iteration, i need to get the length of the beers array and add it to the beerCount
+		return beerCounts
+		*/
   },
 
   getBreweryBeerCount() {
@@ -730,23 +741,61 @@ const breweryPrompts = {
     // ...etc.
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = breweries.reduce((beerCounts, brewery) => {
+			let beerCountObj = {};
+			beerCountObj.name = brewery.name;
+			beerCountObj.beerCount = brewery.beers.length;
+			beerCounts.push(beerCountObj);
+			return beerCounts
+		}, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is an array of brewery objects
+		Output is an array of modified objects
+		Can be done using reduce
+		acc is beerCounts
+		curVal is brewery
+		iniVal is []
+		i first need to make an empty object
+		with each iteration, i update object with key of name, value of brewery.name, key of beerCount, value of brewery.beers.length
+		push that object into beerCounts
+		return beerCounts
+		*/
   },
 
   findHighestAbvBeer() {
     // Return the beer which has the highest ABV of all beers
     // e.g.
     // { name: 'Barrel Aged Nature\'s Sweater', type: 'Barley Wine', abv: 10.9, ibu: 40 }
+		let highestAbvPerBrewery = [];
+		breweries.forEach(brewery => {
+			let sortedBeers = brewery.beers.sort((a, b) => {
+				return b.abv - a.abv;
+			})
+			highestAbvPerBrewery.push(sortedBeers[0]);
+		});
+		
+		const result = highestAbvPerBrewery.sort((a,b) => {
+				return b.abv - a.abv;
+			});
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
-    return result;
+    return result[0];
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is array of brewery objects
+		Output is a single beer object
+		create an empty array called highestAbvPerBrewery
+		iterate over the brewery objects - forEach
+		iterate over the beers array - sort
+		sort the beers by abv from highest to lowest
+		can be done b.abv - a.abv
+		push index 0 into array of highestAbvPerBrewery
+		sort highestAbvPerBrewery using same method as before
+		return index 0
+		*/
   }
 };
 
