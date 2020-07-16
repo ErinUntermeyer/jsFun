@@ -1037,11 +1037,40 @@ const bossPrompts = {
     //   { bossName: 'Scar', sidekickLoyalty: 16 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+
+		let bossObj = {bossName: "", sidekickLoyalty: 0}
+
+		Object.keys(bosses).map(name => {
+			bossObj.bossName = name
+			return array.push(bossObj)
+		})
+		console.log(bossObj)
+
+
+    const result = sidekicks.reduce((bossLoyalty, sidekick) => {
+
+			return bossLoyalty
+		}, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input object and array of objects
+		Output single array
+		can be done using reduce
+		acc is bossLoyalty
+		curVal is sidekick
+		iniVal is []
+
+		iterate over sidekicks array
+		for each iteration
+		if bossObj.bossName === sidekick.boss
+		sidekickLoyalty += sidekick.loyaltyToBoss
+
+		push bossObj into bossLoyalty array
+		return bossLoyalty
+
+		*/
   }
 };
 
@@ -1150,11 +1179,31 @@ const ultimaPrompts = {
     // Return the sum of the amount of damage for all the weapons that our characters can use
     // Answer => 113
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = characters.reduce((sum, character) => {
+			character.weapons.forEach(charWeapon => {
+				sum += weapons[charWeapon].damage
+			})
+			return sum;
+		}, 0);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is an array of objects and an object
+		Output needs to be a number
+
+		need access to the keys in weapons object
+		Object.keys(weapons) will create an array of keys
+		need to iterate over characters array using reduce
+		acc is sum
+		curVal is character
+		iniVal is 0
+		need to iterate over the charWeapons array
+		for each charWeapon
+		add weapons[charWeapon].damage to sum
+		return sum
+
+		*/
   },
 
   charactersByTotal() {
@@ -1162,11 +1211,43 @@ const ultimaPrompts = {
     // Return the sum damage and total range for each character as an object.
     // ex: [ { Avatar: { damage: 27, range: 24 }, { Iolo: {...}, ...}
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = characters.reduce((characterStats, character) => {
+			let charObj = {}
+			charObj[character.name] = {damage: 0, range: 0}
+			character.weapons.forEach(charWeapon => {
+				charObj[character.name].damage += weapons[charWeapon].damage
+				charObj[character.name].range += weapons[charWeapon].range
+			})
+			characterStats.push(charObj);
+			return characterStats
+		}, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input array of objects and an object
+		Output needs to be an array of objects
+
+		I need access to
+		name in character array
+		weapons in charWeapons array
+		weapon damage and range in weapons object
+
+		I can use reduce
+		acc characterStats
+		curVal character
+		iniVal is []
+
+		for each iteration
+		make an object key with character.name
+		assign value to an object with damage: 0 and range: 0
+
+		iterate over charWeapons array
+		for each charWeapon
+		add character object damage and range to object values
+		push object into characterStats
+		return characterStats
+		*/
   },
 };
 
