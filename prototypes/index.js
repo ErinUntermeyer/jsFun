@@ -776,7 +776,7 @@ const breweryPrompts = {
 			})
 			highestAbvPerBrewery.push(sortedBeers[0]);
 		});
-		
+
 		const result = highestAbvPerBrewery.sort((a,b) => {
 				return b.abv - a.abv;
 			});
@@ -839,11 +839,35 @@ const turingPrompts = {
     //  { name: 'Robbie', studentCount: 18 }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+		const result = instructors.reduce((instructorStudentCount, instructor) => {
+			let instructorObj = {};
+			instructorObj.name = instructor.name;
+			cohorts.forEach(cohort => {
+				if (instructor.module === cohort.module) {
+					instructorObj.studentCount = cohort.studentCount;
+				}
+			})
+			instructorStudentCount.push(instructorObj);
+			return instructorStudentCount;
+		}, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input two arrays of objects
+		Output a single array of objects
+		iterate over the instructors array
+		Can be done using reduce
+		acc instructorStudentCount
+		curVal instructor
+		iniVal []
+		update empty object with key of name value of instructor.name
+		iterate over the cohorts array -- forEach
+		if instructor.module === cohort.module
+		update instructorStudentCount object with key of studentCount and value cohort.studentCount
+		push object into array
+		return array
+		*/
   },
 
   studentsPerInstructor() {
@@ -853,11 +877,42 @@ const turingPrompts = {
     // cohort1804: 10.5
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = cohorts.reduce((cohortRatio, cohort) => {
+			let teacherCount = 0
+			instructors.forEach(teacher => {
+				if (cohort.module === teacher.module) {
+					teacherCount++
+				}
+			})
+			cohortRatio[`cohort${cohort.cohort}`] = cohort.studentCount/teacherCount;
+			return cohortRatio
+		}, {});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input two arrays of objects
+		Output is an object - create an empty object cohortRatio
+
+		to determine which cohort is which mod
+		iterate over cohort array
+		make key of cohortRatio[`cohort${cohort.cohort}`]: 0
+		 THEN
+
+		to determine number of teachers per mod
+		iterate over instructors array
+		make a teacherCount
+		if cohort.module === instructor.module
+		teacherCount++
+
+		update cohortRatio key with value of cohort.studentCount / teacherCount
+		
+		return cohortRatio
+		can be done with reduce
+		acc is cohortRatio
+		curVal is cohort
+		iniVal is {}
+		*/
   },
 
   modulesPerTeacher() {
@@ -875,11 +930,43 @@ const turingPrompts = {
     //     Will: [1, 2, 3, 4]
     //   }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = instructors.reduce((instructorSkills, instructor) => {
+			let modsCanTeach = []
+			cohorts.forEach(cohort => {
+				cohort.curriculum.find(subject => {
+					if (instructor.teaches.includes(subject) && (!modsCanTeach.includes(cohort.module))) {
+						modsCanTeach.push(cohort.module)
+					}
+				})
+			})
+			instructorSkills[instructor.name] = modsCanTeach
+			return instructorSkills
+		}, {});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is two arrays of objects
+		Output is an object
+		can be done using reduce
+		acc is instructorSkills
+		curVal is instructor
+		iniVal is {}
+
+		iterate over instructors array
+		need to create variable modsCanTeach = []
+
+		iterate over cohorts array - forEach
+		iterate over curriculum array using find (subject)
+		if teaches !== undefined && !modsCanTeach.includes[cohort.mod]
+		push mod into modsCanTeach array
+
+		update instructorSkills with
+		name = modsCanTeach
+
+		return instructorSkills
+		*/
+
   },
 
   curriculumPerTeacher() {
@@ -892,11 +979,34 @@ const turingPrompts = {
     //   recursion: [ 'Pam', 'Leta' ]
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = instructors.reduce((subjects, instructor) => {
+			instructor.teaches.forEach(subject => {
+				if (!subjects[subject]) {
+					subjects[subject] = [];
+				}
+				subjects[subject].push(instructor.name)
+			})
+			return subjects
+		}, {})
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is one array of objects
+			Need name property, teaches array
+		Output is an object with key of subject and value of array
+		Can be done with reduce
+		acc subjects
+		curVal instructor
+		iniVal {}
+
+		for each iteration
+		i need to iterate over teaches array using forEach
+		if element is not already a key, make it one and assign to empty array
+		push name of instructor into array of key
+		return subjects
+
+		*/
   }
 };
 
