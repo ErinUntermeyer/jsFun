@@ -1035,40 +1035,45 @@ const bossPrompts = {
     //   { bossName: 'Jafar', sidekickLoyalty: 3 },
     //   { bossName: 'Ursula', sidekickLoyalty: 20 },
     //   { bossName: 'Scar', sidekickLoyalty: 16 }
-    // ]
-
-
-		let bossObj = {bossName: "", sidekickLoyalty: 0}
-
-		Object.keys(bosses).map(name => {
-			bossObj.bossName = name
-			return array.push(bossObj)
-		})
-		console.log(bossObj)
-
+		// ]
+		
 
     const result = sidekicks.reduce((bossLoyalty, sidekick) => {
+			let bossObj = {}
+
+			console.log("1", Object.values(bossObj))
+			console.log("2", sidekick.boss)
+			console.log("3", bossLoyalty)
+
+			if (true) {
+				bossObj.bossName = sidekick.boss
+				bossObj.sidekickLoyalty += sidekick.loyaltyToBoss
+			}
+			bossLoyalty.push(bossObj)
+			// console.log(bossObj.sidekickLoyalty)
 
 			return bossLoyalty
-		}, []);
+		}, [])
     return result;
 
     // Annotation:
 		/*
-		Input object and array of objects
-		Output single array
-		can be done using reduce
-		acc is bossLoyalty
-		curVal is sidekick
-		iniVal is []
-
-		iterate over sidekicks array
-		for each iteration
-		if bossObj.bossName === sidekick.boss
-		sidekickLoyalty += sidekick.loyaltyToBoss
-
-		push bossObj into bossLoyalty array
-		return bossLoyalty
+	Input: array of objects
+	Output: array of objects modified, different length
+	What do I need to have access to? sidekick.boss and sidekick.loyaltyToBoss
+	What method can I use? reduce
+	acc is bossLoyalty
+	curVal is sidekick
+	iniVal is []
+	On each iteration I need to:
+	create an object
+	check if bossName[sidekick.boss] does not exist
+	if not, create key bossName and assign it to sidekick.boss
+	if so,
+	create key of sidekickLoyalty and assign it to sidekick.loyaltyToBoss
+	push object into bossLoyalty array
+	What gets returned?
+	bossLoyalty array
 
 		*/
   }
@@ -1108,11 +1113,28 @@ const astronomyPrompts = {
     //     color: 'red' }
     // ]
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = stars.filter(star => constellations[star.constellation.toLowerCase()]);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input: object of objects and array of objects
+		Output:	an array of objects
+		What do I need to have access to?
+		each constellation object and the consStars array within it
+		the stars array
+
+		What method can I use? filter because I want an array of filtered out stars
+
+		On each iteration I need to:
+		iterate over the stars array
+		check if constellations[star.constellation] exists
+		if true, it will be filtered
+
+		What gets returned?
+		stars array
+
+		*/
   },
 
   starsByColor() {
@@ -1126,11 +1148,38 @@ const astronomyPrompts = {
     //   red: [{obj}]
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = stars.reduce((colorObj, star) => {
+			if (!colorObj[star.color]) {
+				colorObj[star.color] = []
+			}
+			colorObj[star.color].push(star)
+			return colorObj
+		}, {});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input is an array of objects
+		Output needs to be an object with keys assigned to arrays of objects
+		What do I need to have access to?
+		the color property in the stars array
+		the entire object in the stars array
+
+		What method can I use? reduce to get an object from an array
+		acc is colorObj
+		curVal is star
+		iniVal is {}
+
+		On each iteration I need to:
+		Check if there is a key with the star.color already
+		if not, make one and assign to empty array
+		push that object into that array
+
+		What gets returned?
+		the colorObj
+
+		*/
+
   },
 
   constellationsStarsExistIn() {
@@ -1152,7 +1201,10 @@ const astronomyPrompts = {
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		I don't understand what are the brightest stars?
+
+		*/
   }
 };
 
