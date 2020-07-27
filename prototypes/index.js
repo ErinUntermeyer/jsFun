@@ -1031,44 +1031,51 @@ const bossPrompts = {
     //   { bossName: 'Ursula', sidekickLoyalty: 20 },
     //   { bossName: 'Scar', sidekickLoyalty: 16 }
 		// ]
-		
+		const bossNames = Object.keys(bosses)
+		const bossObj = bossNames.map(boss => {
+			bossObject = {}
+			bossObject.bossName = boss.charAt(0).toUpperCase() + boss.slice(1).toLowerCase();
+			bossObject.sidekickLoyalty = 0;
+			return bossObject;
+		})
 
-    const result = sidekicks.reduce((bossLoyalty, sidekick) => {
-			let bossObj = {}
-
-			console.log("1", Object.values(bossObj))
-			console.log("2", sidekick.boss)
-			console.log("3", bossLoyalty)
-
-			if (true) {
-				bossObj.bossName = sidekick.boss
-				bossObj.sidekickLoyalty += sidekick.loyaltyToBoss
-			}
-			bossLoyalty.push(bossObj)
-			// console.log(bossObj.sidekickLoyalty)
-
-			return bossLoyalty
-		}, [])
-    return result;
+    const result = bossObj.forEach(boss => {
+			sidekicks.forEach(sidekick => {
+				if (boss.bossName === sidekick.boss) {
+					boss.sidekickLoyalty += sidekick.loyaltyToBoss
+				}
+			})
+		})
+    return bossObj;
 
     // Annotation:
 		/*
-	Input: array of objects
-	Output: array of objects modified, different length
-	What do I need to have access to? sidekick.boss and sidekick.loyaltyToBoss
-	What method can I use? reduce
-	acc is bossLoyalty
-	curVal is sidekick
-	iniVal is []
-	On each iteration I need to:
-	create an object
-	check if bossName[sidekick.boss] does not exist
-	if not, create key bossName and assign it to sidekick.boss
-	if so,
-	create key of sidekickLoyalty and assign it to sidekick.loyaltyToBoss
-	push object into bossLoyalty array
-	What gets returned?
-	bossLoyalty array
+		Input array of objects
+		Output array of objects, different length
+
+		Need access to:
+		sidekick.boss
+		sidekick.loyaltyToBoss
+
+		use Object.keys(bosses) to get array of bossNames
+		iterate over bossNames, can use map, same length
+		for each iteration, create bossObject
+		bossObject.bossName = boss
+		bossObject.sidekickLoyalty = 0
+		return bossObject
+
+		need to iterate over the bossObj array using forEach
+		for each boss
+		iterate over the sidekicks array forEach
+		if boss === sidekick.boss
+		update boss.sidekickLoyalty += sidekick.loyaltyToBoss
+		assign to variable
+		return that variable
+
+		
+
+
+
 
 		*/
   }
