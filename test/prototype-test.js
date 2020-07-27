@@ -527,7 +527,7 @@ describe("PROTOTYPES", () => {
           color: "red"
         }]
       })
-    }), it.only("constellationsStarsExistIn", () => {
+    }), it("constellationsStarsExistIn", () => {
       const e = astronomyPrompts.constellationsStarsExistIn();
       expect(e).to.deep.equal(["Canis Major", "Carina", "Boötes", "Auriga", "Orion", "Lyra", "Canis Minor", "The Plow", "Orion", "The Little Dipper"])
     })
@@ -607,7 +607,7 @@ describe("PROTOTYPES", () => {
         nationality: 'Martian',
         imdbStarMeterRating: 0
       }])
-    }), it("actorsAgesInMovies", () => {
+    }), it.only("actorsAgesInMovies", () => {
       const e = dinosaurPrompts.actorsAgesInMovies();
       expect(e).to.deep.equal([{
         name: 'Sam Neill',

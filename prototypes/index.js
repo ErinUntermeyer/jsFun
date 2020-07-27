@@ -500,11 +500,9 @@ const weatherPrompts = {
     // return an array of all the average temperatures. Eg:
     // [ 40, 40, 44.5, 43.5, 57, 35, 65.5, 62, 14, 46.5 ]
 
-    const result = weather.reduce((avgTemps, city) => {
-			let avg = (city.temperature.high + city.temperature.low) / 2;
-			avgTemps.push(avg);
-			return avgTemps;
-		}, []);
+    const result = weather.map(city => {
+			return (city.temperature.high + city.temperature.low) / 2;
+		})
     return result;
 
     // Annotation:
@@ -627,14 +625,11 @@ const nationalParksPrompts = {
     // { Utah: 'Zion' },
     // { Florida: 'Everglades' } ]
 
-
-    const result = nationalParks.reduce((parksInState, park) => {
-			let parkObj = {};
-			parkObj[park.location] = park.name;
-			parksInState.push(parkObj);
-			return parksInState;
-		}, []);
-    return result;
+		let parks = [];
+    nationalParks.forEach(park => {
+			parks.push({[park.location]: park.name})
+		});
+    return parks;
 
     // Annotation:
 		/*
@@ -1332,11 +1327,33 @@ const dinosaurPrompts = {
     //   'Jurassic World: Fallen Kingdom': 18
     // }
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = movies.reduce((awesomeDinos, movie) => {
+			awesomeDinos[movie.title] = 0;
+			movie.dinos.forEach(dino => {
+				if (dinosaurs[dino].isAwesome) {
+					awesomeDinos[movie.title]++
+				}
+			})
+			return awesomeDinos;
+		}, {});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/* Input is dinosaurs object and movies array of objects
+		Output needs to be an object
+		Need access to title in movies array
+		need to iterate over the movies array (can be done using reduce since we need object)
+		for each movie
+		need to make a key of the title and set it to 0
+		Need to iterate over the dinos array
+		for each dino, check movie object for that dino and ifAwesome is true, up the count.
+		can be done with reduce
+		acc is an awesomeDinos
+		curVal is movie
+		iniVal is {}
+
+		return awesomeDinos
+		*/
   },
 
   averageAgePerMovie() {
@@ -1365,11 +1382,45 @@ const dinosaurPrompts = {
       }
     */
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+    const result = movies.reduce((movieDirectors, movie) => {
+			let totalAge = 0;
+			if (!movieDirectors[movie.director]) {
+				movieDirectors[movie.director] = {};
+			}
+			if (!movieDirectors[movie.director][movie.title]) {
+				movieDirectors[movie.director][movie.title] = 0;
+			}
+			movie.cast.forEach(person => {
+				totalAge += movie.yearReleased - humans[person].yearBorn;
+			})
+			movieDirectors[movie.director][movie.title] = Math.floor(totalAge / movie.cast.length)
+			return movieDirectors;
+		}, {});
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/* Input is an array of movie objects and object of humans objects
+		Output needs to be an object with keys assigned to objects
+		Need access to:
+		directors (movie.director)
+		movie titles (movie.title)
+		average age of cast:
+		(iterate over movie.cast (forEach), get humans[person].yearBorn and subtract from 2020, add answer to a sum, need to make a totalAge variable set to 0)
+		divide total age by movie.cast.length
+
+		first, iterate over movies array - can be done with reduce
+		acc is movieDirectors
+		curVal is movie
+		iniVal is {}
+
+		for each iteration
+		check if key of director name exists, if no, make one - assign to empty object
+		check if key of movie title exists within director key, if no - make one and assign to 0
+		*do average age of cast stuff here*
+		update value to the answer of 'divide total age by movie.cast.length'
+		
+		return movieDirectors
+		*/
   },
 
   uncastActors() {
@@ -1398,11 +1449,60 @@ const dinosaurPrompts = {
       }]
     */
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+		const allActors = Object.keys(humans);
+		const castActors = [];
+		movies.forEach(movie => {
+			movie.cast.forEach(actor => {
+				if (!castActors.includes(actor)) {
+					castActors.push(actor)
+				}
+			})
+		})
+	
+		const result = allActors.reduce((uncastActors, actor) => {
+			const notCast = {}
+			if (!castActors.includes(actor)) {
+				notCast.name = actor
+				notCast.nationality = humans[actor].nationality
+				notCast.imdbStarMeterRating = humans[actor].imdbStarMeterRating
+				uncastActors.push(notCast)
+			}
+			const sorted = uncastActors.sort((a, b) => a.nationality > b.nationality ? 1 : -1)
+			return sorted
+		}, [])
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input: humans object of objects and movie array of objects
+		Output: Array of objects
+		Need access to:
+		name... Object.keys(humans)
+		nationality... humans[name].nationality
+		imdb rating... humans[name].imdbStarMeterRating
+		cast... movie.cast
+
+		get object keys from humans object
+		
+		create one array of all actors cast in movies
+		iterate over movies
+		create empty array castActors
+		for each movie, iterate over cast
+		if actor not in castActors, push in
+		
+		iterate over actors
+		if castActors does not include actors
+		create new object
+		push object into uncastActors array
+		sort them alphabetically by nationality using sort
+		return uncastActors
+
+		can be done using reduce
+		acc is uncastActors
+		curVal is actor
+		iniVal is []
+
+		*/
   },
 
   actorsAgesInMovies() {
@@ -1421,11 +1521,66 @@ const dinosaurPrompts = {
       { name: 'Bryce Dallas Howard', ages: [ 34, 37 ] } ]
     */
 
-    const result = 'REPLACE WITH YOUR RESULT HERE';
+		let castActors = []
+		movies.forEach(movie => {
+			movie.cast.forEach(actor => {
+				if (!castActors.includes(actor)) {
+					castActors.push(actor);
+				}
+			})
+		})
+		
+
+    const result = castActors.reduce((actorAges, actor) => {
+			let actorObj = {name: "", ages: []};
+			actorObj.name = actor;
+			movies.forEach(movie => {
+				if (movie.cast.includes(actor)) {
+					let age = movie.yearReleased - humans[actor].yearBorn
+					actorObj.ages.push(age);
+				}
+			})
+			actorAges.push(actorObj)
+			return actorAges
+		}, []);
     return result;
 
     // Annotation:
-    // Write your annotation here as a comment
+		/*
+		Input object of actor objects, array of movie objects
+		Output is an array of objects
+		Need access to:
+		All actors cast in movies.. movies.cast
+		year the movie was released.. movies.yearReleased
+		yearBorn humans[actor].yearBorn
+
+		need to create an array of all cast actors
+		can do this by iterating over movies
+		create castActors variable assigned to empty array
+		for each iteration, iterate over cast
+		check if actor is in castActors array
+		if not, push
+
+		iterator over castActors array
+		need to use reduce
+		acc is actorAges
+		curVal is actor
+		iniVal is []
+		for each iteration
+		create an actorObj = {name: "", ages: []}
+		update actorObj.name = actor
+
+		//to get the age
+		iterate over movies array
+		for each movie
+		if movie.cast.includes(actor)
+		let age = movie.yearReleased - humans[actor].yearBorn
+		update actorObj.ages.push(age);
+		
+		actorAges.push(actorObj);
+		return actorAges
+		*/
+
   }
 };
 
