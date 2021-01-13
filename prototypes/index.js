@@ -123,10 +123,28 @@ const clubPrompts = {
     //   ...etc
 		// }
 
-		const result = {}
+		const result = clubs.reduce((clubsByName, club) => {
+			club.members.forEach(member => {
+				if (!clubsByName[member]) {
+					clubsByName[member] = []
+				}
+				clubsByName[member].push(club.club)
+			})
+			return clubsByName
+		}, {})
     return result;
 
 		// Annotation:
+		/*
+		input is array of objects
+		output is an object with keys of names and values of arrays of strings
+		need to iterate over the clubs array
+		for each club, iterate over the members array
+		if the key of the name doesn't exist, make it, make value an array
+		push the club into the the array
+		if the key of the name does exist, push the club into the array
+		return the object at the end
+		*/
 
 	
 	}
