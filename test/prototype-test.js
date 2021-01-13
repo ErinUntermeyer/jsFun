@@ -63,7 +63,7 @@ describe("PROTOTYPES", () => {
       }])
     })
   }), describe("Club Prompts", () => {
-    it.only("membersBelongingToClubs", () => {
+    it("membersBelongingToClubs", () => {
       const e = clubPrompts.membersBelongingToClubs({
         Louisa: ["Drama", "Art"],
         Pam: ["Drama", "Chess", "Newspaper"],
@@ -175,7 +175,7 @@ describe("PROTOTYPES", () => {
       })
     })
   }), describe("Class Prompts", () => {
-    it("feClassrooms", () => {
+    it.only("feClassrooms", () => {
       const e = classPrompts.feClassrooms();
       expect(e).to.deep.equal([{
         roomLetter: "A",

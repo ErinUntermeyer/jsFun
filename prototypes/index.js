@@ -178,10 +178,24 @@ const modPrompts = {
     //   { mod: 4, studentsPerInstructor: 8 }
     // ]
 
-		const result = {}
+		const result = mods.map(mod => {
+			mod.studentsPerInstructor = mod.students / mod.instructors
+			delete mod.students
+			delete mod.instructors
+			return mod
+		})
     return result;
 
-    // Annotation:
+		// Annotation:
+		/*
+		input is an array of objects
+		output is an array of objects, rearranged
+		need to iterate over the mods array
+		for each mod, keep the key of mod
+		create a key studentsPerInstructor and set the value of students / instructors
+		see what that returns
+
+		*/
 
   }
 };
@@ -213,10 +227,26 @@ const cakePrompts = {
     //    ..etc
     // ]
 
-		const result = {}
+		const result = cakes.reduce((inStockFlavors, cake) => {
+			let inStockFlavor = {}
+			inStockFlavor.flavor = cake.cakeFlavor
+			inStockFlavor.inStock = cake.inStock
+			inStockFlavors.push(inStockFlavor)
+			return inStockFlavors
+		}, [])
     return result;
 
-    // Annotation:
+		// Annotation:
+		/*
+		input is an array of objects
+		output needs to be an array of objects modified
+		need to iterate over the cakes array
+		can use reduce to create a new array of objects
+		for each cake
+		make key flavor and assign to cakeFlavor
+		make hey inStock and assign to inStock
+		return the new array
+		*/
 
   },
 
@@ -241,10 +271,17 @@ const cakePrompts = {
     // ..etc
     // ]
 
-    const result = {}
+    const result = cakes.filter(cake => cake.inStock > 0)
     return result;
 
-    // Annotation:
+		// Annotation:
+		/*
+		input is an array of objects
+		output is an array of objects that are in stock
+		for each cake, check is inStock is greater than 0
+		if so, return that cake
+
+		*/
 
   },
 
@@ -252,10 +289,22 @@ const cakePrompts = {
     // Return the total amount of cakes in stock e.g.
     // 59
 
-    const result = {}
+    const result = cakes.reduce((total, cake) => {
+			total = total + cake.inStock
+			return total
+		}, 0)
     return result;
 
-    // Annotation:
+		// Annotation:
+		/*
+		input is an array of objects
+		output is a number
+		can use reduce to do this
+		initialize a counter
+		iterate over cakes
+		for each cake, add the inStock number to the counter
+		return the counter
+		*/
 
   },
 
@@ -264,10 +313,26 @@ const cakePrompts = {
     // every cake in the dataset e.g.
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
 
-    const result = {}
+    const result = cakes.reduce((allToppings, cake) => {
+			cake.toppings.forEach(topping => {
+				if (!allToppings.includes(topping)) {
+					allToppings.push(topping)
+				}
+			})
+			return allToppings
+		}, [])
     return result;
 
-    // Annotation:
+		// Annotation:
+		/*
+		input is an array of objects
+		output is an array of strings
+		create an empty array
+		need to iterate over the cakes array
+		for each cake, iterate over the topping array
+		for each topping, if it's not already in the allToppings array, add it
+		return allToppings array
+		*/
 
   },
 
@@ -282,10 +347,28 @@ const cakePrompts = {
     //    ...etc
     // }
 
-    const result = {}
+    const result = cakes.reduce((toppingCounter, cake) => {
+			cake.toppings.forEach(topping => {
+				if (!toppingCounter[topping]) {
+					toppingCounter[topping] = 0
+				}
+				toppingCounter[topping]++
+			})
+			return toppingCounter
+		}, {})
     return result;
 
-    // Annotation:
+		// Annotation:
+		/*
+		input is an array of objects
+		output needs to be an object with keys of toppings assigned to the count
+		need to create an object
+		iterate over cakes array
+		for each cake, iterator over toppings array
+		if key doesn't exist, make the key
+		increase counter by 1
+		return object
+		*/
 
   }
 };
