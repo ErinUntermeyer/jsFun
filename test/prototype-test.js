@@ -175,7 +175,7 @@ describe("PROTOTYPES", () => {
       })
     })
   }), describe("Class Prompts", () => {
-    it.only("feClassrooms", () => {
+    it("feClassrooms", () => {
       const e = classPrompts.feClassrooms();
       expect(e).to.deep.equal([{
         roomLetter: "A",
@@ -200,7 +200,7 @@ describe("PROTOTYPES", () => {
         feCapacity: 110,
         beCapacity: 96
       })
-    }), it("sortByCapacity", () => {
+    }), it.only("sortByCapacity", () => {
       const e = classPrompts.sortByCapacity();
       expect(e).to.deep.equal([{
         roomLetter: "H",

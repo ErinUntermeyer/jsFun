@@ -400,10 +400,16 @@ const classPrompts = {
     //   { roomLetter: 'G', program: 'FE', capacity: 29 }
     // ]
 
-		const result = {}
+		const result = classrooms.filter(classroom => classroom.program === 'FE')
 		return result;
 
-    // Annotation:
+		// Annotation:
+		/*
+		Input is an array of objects
+		Output is a filtered array of objects
+		Need to iterate over array
+		for each iteration, if program is FE, return true
+		*/
 
   },
 
@@ -415,20 +421,40 @@ const classPrompts = {
     //   beCapacity: 96
     // }
 
-    const result = {}
+    const result = classrooms.reduce((totalCap, classroom) => {
+			if (classroom.program === 'FE') {
+				totalCap.feCapacity += classroom.capacity
+			} else {
+				totalCap.beCapacity += classroom.capacity
+			}
+			return totalCap
+		}, {feCapacity: 0, beCapacity: 0})
     return result;
 
-    // Annotation:
-
+		// Annotation:
+		/*
+		Input is an array of objects
+		Output is an object
+		Iterate over classrooms
+		for each classroom, if program is FE, add capacity to feCapacity, same for BE.
+		return object
+		can use reduce
+		accumulator is totalCap, curVal is classroom, iniVal is object with keys of feCap and beCap
+		*/
   },
 
   sortByCapacity() {
     // Return the array of classrooms sorted by their capacity (least capacity to greatest)
 
-    const result = {}
+    const result = classrooms.sort((a, b) => a.capacity - b.capacity)
     return result;
 
     // Annotation:
+		/*
+		Input is an array of objects
+		Output is a sorted array of objects
+		use the sort function
+		*/
 
   }
 };
@@ -456,6 +482,10 @@ const bookPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
 
   },
@@ -471,6 +501,10 @@ const bookPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   }
 
@@ -494,6 +528,10 @@ const weatherPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   },
 
@@ -508,7 +546,11 @@ const weatherPrompts = {
     return result;
 
     // Annotation:
-  },
+  	},	/*
+		Input is
+		Output is
+		*/
+
 
   findHighestHumidity() {
     // Return the location with the highest humidity. Eg:
@@ -523,6 +565,10 @@ const weatherPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   }
 };
@@ -549,6 +595,10 @@ const nationalParksPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   },
 
@@ -565,6 +615,10 @@ const nationalParksPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   },
 
@@ -588,6 +642,10 @@ const nationalParksPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   }
 };
@@ -615,6 +673,10 @@ const breweryPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   },
 
@@ -631,6 +693,10 @@ const breweryPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   },
 
@@ -644,6 +710,10 @@ const breweryPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   }
 };
@@ -692,6 +762,10 @@ const turingPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   },
 
@@ -706,6 +780,10 @@ const turingPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   },
 
@@ -728,6 +806,10 @@ const turingPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
 
   },
@@ -746,6 +828,10 @@ const turingPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   }
 };
@@ -781,6 +867,10 @@ const bossPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   }
 };
@@ -823,6 +913,10 @@ const astronomyPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   },
 
@@ -841,6 +935,10 @@ const astronomyPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   },
 
@@ -865,7 +963,6 @@ const astronomyPrompts = {
     // Annotation:
 		/*
 		I don't understand what are the brightest stars?
-
 		*/
   }
 };
@@ -897,6 +994,10 @@ const ultimaPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   },
 
@@ -909,6 +1010,10 @@ const ultimaPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   },
 };
@@ -946,6 +1051,10 @@ const dinosaurPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   },
 
@@ -979,6 +1088,10 @@ const dinosaurPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   },
 
@@ -1012,6 +1125,10 @@ const dinosaurPrompts = {
     return result;
 
     // Annotation:
+		/*
+		Input is
+		Output is
+		*/
 
   },
 
@@ -1035,7 +1152,11 @@ const dinosaurPrompts = {
     return result;
 
 		// Annotation:
-		
+				/*
+		Input is
+		Output is
+		*/
+
   }
 };
 
