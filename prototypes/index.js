@@ -1001,14 +1001,41 @@ const bossPrompts = {
     //   { bossName: 'Ursula', sidekickLoyalty: 20 },
     //   { bossName: 'Scar', sidekickLoyalty: 16 }
 		// ]
-
-    const result = {}
+		let bossKeys = Object.keys(bosses)
+		let bossNames = bossKeys.map(boss => bosses[boss].name)
+		
+		const result = bossNames.map(boss => {
+			let totalLoyalty = 0
+			sidekicks.forEach(sidekick => {
+				if (boss === sidekick.boss) {
+					totalLoyalty += sidekick.loyaltyToBoss
+				}
+			})
+			return {bossName: boss, sidekickLoyalty: totalLoyalty}
+		})
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is an object and an array of objects
+		Output is an array of objects
+		first I need to make the object complete before I push into array
+
+		get the keys of the object for bosses
+		use the keys to iterate over and each key.name assign to variable
+		now we have bossNames array with each boss
+
+		iterate over bossNames
+		for each boss
+		return object with bossName: boss
+
+		to get sidekickLoyalty
+		iterate over sidekicks
+		for each sidekick
+		if boss === sidekick.boss
+		add loyaltyToBoss fo sidekickLoyalty number
+
+		return that object
 		*/
 
   }
