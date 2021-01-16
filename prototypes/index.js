@@ -1175,20 +1175,30 @@ const astronomyPrompts = {
 
 
 
-// DATASET: charaters, weapons from ./datasets/ultima
+// DATASET: characters, weapons from ./datasets/ultima
 const ultimaPrompts = {
   totalDamage() {
 
     // Return the sum of the amount of damage for all the weapons that our characters can use
     // Answer => 113
 
-    const result = {}
+    const result = characters.reduce((totalDamage, character) => {
+			character.weapons.forEach(weapon => {
+				totalDamage += weapons[weapon].damage
+			})
+			return totalDamage
+		}, 0)
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is an array of objects and an object
+		Output is a number
+		iterate over characters
+		for each character, iterate over weapons
+		for each weapon, find that in the weapons array
+		add the damage to total damage
+		return total damage
 		*/
 
   },
@@ -1198,13 +1208,30 @@ const ultimaPrompts = {
     // Return the sum damage and total range for each character as an object.
     // ex: [ { Avatar: { damage: 27, range: 24 }, { Iolo: {...}, ...}
 
-    const result = {}
+    const result = characters.map(character => {
+			totalDamage = 0
+			totalRange = 0
+			character.weapons.forEach(weapon => {
+				totalDamage += weapons[weapon].damage
+				totalRange += weapons[weapon].range
+			})
+			return {[character.name]: {damage: totalDamage, range: totalRange}}
+		})
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is an array of objects and an object
+		Output is an array of objects, same length of characters
+		iterate over characters array
+		for each character, need to create an object
+		key is character name
+		value is an object with keys damage and range
+		to get damage & range:
+		iterate over weapons array
+		target weapon in weapons object
+		add damage and range to character object
+		return new character object
 		*/
 
   },
