@@ -628,33 +628,22 @@ const nationalParksPrompts = {
     //   parksVisited: ["Rocky Mountain", "Acadia", "Zion"]
     //}
 
-    const result = {}
+    const result = nationalParks.reduce((parkPlans, park) => {
+			park.visited ?
+				parkPlans.parksVisited.push(park.name) :
+				parkPlans.parksToVisit.push(park.name)
+			return parkPlans
+		}, {parksToVisit: [], parksVisited: []})
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
-		*/
-
-  },
-
-  getParkInEachState() {
-    // Return an array of objects where the key is the state and the value is its National Park
-    // eg: [ { Colorado: 'Rocky Mountain' },
-    // { Wyoming: 'Yellowstone' },
-    // { Montana: 'Glacier' },
-    // { Maine: 'Acadia' },
-    // { Utah: 'Zion' },
-    // { Florida: 'Everglades' } ]
-
-		let result = {}
-    return result;
-
-    // Annotation:
-		/*
-		Input is
-		Output is
+		Input is an array of objects
+		Output is an object
+		iterate over natparks array
+		if visited is true, push park name into array for parksVisited, else push park name into array for parksToVisit
+		return object
+		can be done with reduce
 		*/
 
   },
@@ -675,16 +664,51 @@ const nationalParksPrompts = {
     //   'backpacking',
     //   'rock climbing' ]
 
-    const result = {}
+		const result = []
+		nationalParks.forEach(park => {
+			park.activities.forEach(activity => {
+				if (!result.includes(activity)) {
+					result.push(activity)
+				}
+			})
+		})
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is an array of objects
+		Output is an array of strings
+		need to iterate over natparks
+		for each park, need to iterate over activities
+		if allActivities array doesnt include activity, push
+		return allActivities
 		*/
 
-  }
+	},
+	
+	getParkInEachState() {
+		// Return an array of objects where the key is the state and the value is its National Park
+		// eg: [ { Colorado: 'Rocky Mountain' },
+		// { Wyoming: 'Yellowstone' },
+		// { Montana: 'Glacier' },
+		// { Maine: 'Acadia' },
+		// { Utah: 'Zion' },
+		// { Florida: 'Everglades' } ]
+
+		let result = nationalParks.map(park => {
+			return {[park.location]: park.name}
+		})
+		return result;
+
+		// Annotation:
+		/*
+		Input is an array of objects
+		Output is an array of modified objects
+		iterate over natParks
+		for each park, return object with key as park.loc and value as park.name
+		*/
+
+	}
 };
 
 
