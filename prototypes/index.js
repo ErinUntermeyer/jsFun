@@ -545,13 +545,19 @@ const weatherPrompts = {
     // return an array of all the average temperatures. Eg:
     // [ 40, 40, 44.5, 43.5, 57, 35, 65.5, 62, 14, 46.5 ]
 
-    const result = {}
+    const result = weather.map(city => {
+			let avgTemp = (city.temperature.high + city.temperature.low) / 2
+			return avgTemp
+		})
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is an array of objects
+		Output is an array of numbers, same length
+		Need to iterate over weather array
+		Add temp.high & low, divide by 2
+		return that number
 		*/
 
   },
@@ -562,14 +568,23 @@ const weatherPrompts = {
     // [ 'Atlanta, Georgia is sunny.',
     // 'New Orleans, Louisiana is sunny.',
     // 'Raleigh, North Carolina is mostly sunny.' ]
-
-    const result = {}
+		const result = []
+    weather.forEach(city => {
+			if (city.type === 'sunny' || city.type === 'mostly sunny') {
+				result.push(`${city.location} is ${city.type}.`)
+			}
+		})
     return result;
 
-    // Annotation:
-  	},	/*
-		Input is
-		Output is
+	},
+		// Annotation:
+		/*
+		Input is an array of objects
+		Output is an array of strings
+		iterate over weather array
+		if location is sunny or mostly sunny
+		push string into array
+		return array
 		*/
 
 
@@ -582,13 +597,14 @@ const weatherPrompts = {
     //   temperature: { high: 49, low: 38 }
     // }
 
-    const result = {}
+    const result = weather.sort((a, b) => b.humidity - a.humidity)[0]
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is an array of objects
+		Output is a single object
+		Need to sort the objects by humidity and return the first one only
 		*/
 
   }

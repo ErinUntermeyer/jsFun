@@ -255,7 +255,7 @@ describe("PROTOTYPES", () => {
         'Catch-22',
         'Treasure Island'])
     }),
-    it.only("getNewBooks", () => {
+    it("getNewBooks", () => {
       const e = bookPrompts.getNewBooks();
       expect(e).to.deep.equal([{
         title: 'Harry Potter and the Sorcerer\'s Stone', year: 1997 },
