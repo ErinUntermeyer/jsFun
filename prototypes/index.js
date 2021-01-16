@@ -1074,14 +1074,29 @@ const astronomyPrompts = {
     //     lightYearsFromEarth: 640,
     //     color: 'red' }
     // ]
-
-    const result = {}
+		const constellationNames = Object.keys(constellations)
+		const result = []
+		stars.forEach(star => {
+			constellationNames.forEach(name => {
+				if (constellations[name].stars.includes(star.name)) {
+					result.push(star)
+				}
+			})
+		})
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is an object and an array of objects
+		Output is an array of objects
+		get the constellation keys, assign to constellations
+
+		iterate over stars
+		for each star iterate over constellationNames
+		for each constellation, see if constellation.stars includes star. name
+		if so, push into array
+
+		may need to check if star already exists in array
 		*/
 
   },
@@ -1097,13 +1112,24 @@ const astronomyPrompts = {
     //   red: [{obj}]
     // }
 
-    const result = {}
+    const result = stars.reduce((starsByColor, star) => {
+			if (!starsByColor[star.color]) {
+				starsByColor[star.color] = []
+			}
+			starsByColor[star.color].push(star)
+			return starsByColor
+		}, {})
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is array of objects
+		Output is a single object
+		iterate over stars
+		build an object starsByColor
+		if starsByColor[star.color] doesn't exist, make it, assign to empty array
+		push star into starsByColor[star.color] array
+		return starsByColor
 		*/
 
   },
