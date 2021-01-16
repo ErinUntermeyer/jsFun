@@ -478,32 +478,53 @@ const bookPrompts = {
     //   'Catch-22', 'Treasure Island']
 
 
-    const result = {}
+    const result = books.reduce((notHorrorOrCrime, book) => {
+			if (book.genre !== 'Horror' && book.genre !== 'True Crime') {
+				notHorrorOrCrime.push(book.title)
+			}
+			return notHorrorOrCrime
+		}, [])
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is an array of objects
+		Output is an array of strings
+		For each iteration, if genre is NOT horror or true crime,
+		push title into an array
+		return the array
 		*/
 
 
   },
   getNewBooks() {
     // return an array of objects containing all books that were
-    // published in the 90's and 00's. Inlucde the title and the year Eg:
+    // published in the 90's and 00's. Include the title and the year Eg:
 
     // [{ title: 'Harry Potter and the Sorcerer\'s Stone', year: 1997 },
     //  { title: 'Life of Pi', year: 2001 },
     //  { title: 'The Curious Incident of the Dog in the Night-Time', year: 2003 }]
 
-    const result = {}
+    const result = books.reduce((newBooks, book) => {
+			let newBook = {}
+			if (book.published > 1989 && book.published < 2010) {
+				newBook.title = book.title
+				newBook.year = book.published
+				newBooks.push(newBook)
+			}
+			return newBooks
+		}, [])
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is an array of objects
+		Output is a modified array of objects
+		Iterate over books
+		for each iteration, if published is greater than 1989 and less than 2010
+		create an object with the title and year
+		push object into array
+		return array 
 		*/
 
   }
