@@ -838,13 +838,21 @@ const turingPrompts = {
     //  { name: 'Robbie', studentCount: 18 }
     // ]
 
-		const result =  {}
+		const result = instructors.map(instructor => {
+			return {
+				name: instructor.name,
+				studentCount: cohorts.find(cohort => cohort.module === instructor.module).studentCount
+			}
+		})
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is two arrays of objects
+		Output is an array of objects, same length at instructors array
+		Need to iterate over instructors
+		return an object, first key/value is name
+		for second key, need to find the matching module from cohorts and return the student count
 		*/
 
   },
@@ -856,13 +864,24 @@ const turingPrompts = {
     // cohort1804: 10.5
     // }
 
-    const result = {}
+    const result = cohorts.reduce((studentsPer, cohort) => {
+			let totalTeachers = instructors.filter(instructor => instructor.module === cohort.module).length
+			studentsPer[`cohort${cohort.cohort}`] = cohort.studentCount / totalTeachers
+			return studentsPer
+		}, {})
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is two arrays of objects
+		Output is a single object
+		need to know how many teachers per module
+		need to know how many students per module
+		totalStudents / totalTeachers - studentsPer
+		reduce over cohorts 
+		filter instructors by module, get length, assign to teachers
+		do division
+		return object
 		*/
 
   },
@@ -882,13 +901,28 @@ const turingPrompts = {
     //     Will: [1, 2, 3, 4]
     //   }
 
-    const result = {}
+    const result = instructors.reduce((teacherModules, teacher) => {
+			teacherModules[teacher.name] = []
+			cohorts.forEach(cohort => {
+				cohort.curriculum.forEach(subject => {
+					if (teacher.teaches.includes(subject) && !teacherModules[teacher.name].includes(cohort.module)) {
+						teacherModules[teacher.name].push(cohort.module)
+					}
+				})
+			})
+			return teacherModules
+		}, {})
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is two arrays of objects
+		Output is a single object
+		iterator over instructors
+		for each instructor, iterate over cohorts
+		for each cohort, iterate over curriculum
+		for each subject, if the array for that teacher does not already include the module and the subject is in their teaches array, push the module number into the teachers array
+		return the object
 		*/
 
 
@@ -904,13 +938,38 @@ const turingPrompts = {
     //   recursion: [ 'Pam', 'Leta' ]
     // }
 
-    const result = {}
+    const result = cohorts.reduce((curriculumTeachers, cohort) => {
+			cohort.curriculum.forEach(subject => {
+				if (!curriculumTeachers[subject]) {
+					curriculumTeachers[subject] = []
+				}
+				instructors.forEach(instructor => {
+					if (instructor.teaches.includes(subject) &&
+							!curriculumTeachers[subject].includes(instructor.name)) {
+						curriculumTeachers[subject].push(instructor.name)
+					}
+				})
+			})
+			return curriculumTeachers
+		}, {})
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is two arrays of objects
+		Output is a single object
+		reduce
+		acc is curriculumTeachers
+		curVal is cohort
+		iniVal {}
+
+		iterate over cohorts
+		for each cohort, iterate over curriculum
+		for each subject, if there's not a key, make one, assign to empty array
+		iterate over instructors
+		for each instructor
+		if teaches includes subject, push instructor name into array with matching key
+		return object
 		*/
 
   }
