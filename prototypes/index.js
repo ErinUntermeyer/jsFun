@@ -1266,13 +1266,32 @@ const dinosaurPrompts = {
     //   'Jurassic World: Fallen Kingdom': 18
     // }
 
-    const result = {}
+    const result = movies.reduce((awesomeDinos, movie) => {
+			let counter = 0
+			movie.dinos.forEach(dino => {
+				if (dinosaurs[dino].isAwesome) {
+					counter = counter + 1
+				}
+			})
+			awesomeDinos[movie.title] = counter
+			return awesomeDinos
+		}, {})
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is dino object, humans object, movies array of objects
+		Output is a single object
+		need movie title
+		need number of awesome dinos
+		need to build an object
+		key is movie title
+		value is totalAwesomeDinos
+		need to iterate over movies array
+		for each movie, iterate over dinos array
+		if dino is awesome, increment counter
+		assign counter to value of key
+		return new object
 		*/
 
   },
@@ -1303,13 +1322,41 @@ const dinosaurPrompts = {
       }
     */
 
-    const result = {}
+    const result = movies.reduce((movieDirectors, movie) => {
+			if (!movieDirectors[movie.director]) {
+				movieDirectors[movie.director] = {}
+			}
+			let totalAge = 0
+			movie.cast.forEach(human => {
+				totalAge = totalAge + movie.yearReleased - humans[human].yearBorn
+			})
+			movieDirectors[movie.director][movie.title] = Math.floor(totalAge / movie.cast.length)
+			return movieDirectors
+		}, {})
     return result;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is dino object, humans object, movies array of objects
+		Output is an object
+		build an object with keys of director names
+		iterate over movies array
+		for each movie, check if exists, if not, make one, assign to object
+
+		now I have a directors object
+		need to create keys of the movies that director directed
+		iterate over movies array
+		find the matching key to director
+		make a key of movie title, assign to 0 for now
+
+		to get the average age of the cast for that movie
+		iterate over movies
+		for each movie, iterate over cast
+		for each cast member, use humans object to get yearBorn, subtract from yearReleased, add to total age
+		divide total age by case.length
+		assign this number to the movie key
+
+		refactor into the first reduce
 		*/
 
   },
@@ -1339,14 +1386,46 @@ const dinosaurPrompts = {
         imdbStarMeterRating: 0
       }]
     */
-	
-		const result = {}
-    return result;
+
+		const allActors = []
+		movies.forEach(movie => {
+			movie.cast.forEach(actor => {
+				if (!allActors.includes(actor)) {
+					allActors.push(actor)
+				}
+			})
+		})
+		const uncastActors = Object.keys(humans).filter(actor => !allActors.includes(actor))
+		const result = uncastActors.map(uncastActor => {
+			return {
+				name: uncastActor,
+				nationality: humans[uncastActor].nationality,
+				imdbStarMeterRating: humans[uncastActor].imdbStarMeterRating
+			}
+		})
+		const sorted = result.sort((a, b) => {
+			if (a.nationality < b.nationality) {
+				return -1
+			}
+			if (a.nationality > b.nationality) {
+				return 1
+			}
+		})
+    return sorted;
 
     // Annotation:
 		/*
-		Input is
-		Output is
+		Input is dino object, humans object, movies array of objects
+		Output is an array of objects
+		Need to iterate over movies array
+		for each movie, iterate over cast array
+		if allActors does not yet have that name, push it in
+		once allActors has been created, check against humans
+
+		iterate over allActors
+		if humans[actor] does not exist, push actors name into uncastActors
+		iterate over uncastActors using map to return an object formatted correctly
+		sort them by nationality using the sort function
 		*/
 
   },
@@ -1367,13 +1446,39 @@ const dinosaurPrompts = {
       { name: 'Bryce Dallas Howard', ages: [ 34, 37 ] } ]
     */
 
-    const result = {}
+		const allActors = []
+		movies.forEach(movie => {
+			movie.cast.forEach(actor => {
+				if (!allActors.includes(actor)) {
+					allActors.push(actor)
+				}
+			})
+		})
+    const result = allActors.map(actor => {
+			let actorAges = {name: actor, ages: []}
+			movies.forEach(movie => {
+				if (movie.cast.includes(actor)) {
+					let age = movie.yearReleased - humans[actor].yearBorn
+					actorAges.ages.push(age)
+				}
+			})
+			return actorAges
+		})
     return result;
 
 		// Annotation:
-				/*
-		Input is
-		Output is
+		/*
+		Input is dino object, humans object, movies array of objects
+		Output is an array of objects
+
+		can use a portion of the function about to make an array of all cast actors
+		once we have cast actors, can iterate over that array using a map to return a modified object
+
+		for each actor, iterate over movies
+		for each movie, if movie.cast includes actor, get age
+		take yearReleased minus yearBorn, push that into ages array
+
+		return object
 		*/
 
   }

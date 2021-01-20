@@ -560,7 +560,7 @@ describe("PROTOTYPES", () => {
       }])
     })
   }), describe("Dinosaur Prompts", () => {
-    it.only("countAwesomeDinosaurs", () => {
+    it("countAwesomeDinosaurs", () => {
       const e = dinosaurPrompts.countAwesomeDinosaurs();
       expect(e).to.deep.equal({
         'Jurassic Park': 5,
@@ -607,7 +607,7 @@ describe("PROTOTYPES", () => {
         nationality: 'Martian',
         imdbStarMeterRating: 0
       }])
-    }), it("actorsAgesInMovies", () => {
+    }), it.only("actorsAgesInMovies", () => {
       const e = dinosaurPrompts.actorsAgesInMovies();
       expect(e).to.deep.equal([{
         name: 'Sam Neill',
